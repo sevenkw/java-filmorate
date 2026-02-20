@@ -9,14 +9,10 @@ import jakarta.validation.constraints.Size;
 
 import java.time.LocalDate;
 
-/**
- * Film.
- */
 @Data
 public class Film {
     private Long id;
     @NotBlank(message = "Название не может быть пустым")
-    @NotNull
     private String name;
     @NotNull(message = "Описание не может быть пустым")
     @Size(max = 200, message = "Максимальная длина описания — 200 символов")

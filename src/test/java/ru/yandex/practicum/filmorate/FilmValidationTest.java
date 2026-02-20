@@ -4,6 +4,7 @@ import jakarta.validation.Validation;
 import jakarta.validation.Validator;
 import jakarta.validation.ValidatorFactory;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import ru.yandex.practicum.filmorate.exception.ValidationException;
 import ru.yandex.practicum.filmorate.model.Film;
@@ -25,6 +26,7 @@ class FilmValidationTest {
     }
 
     @Test
+    @DisplayName("Создание корректного фильма")
     void create_valid_film() {
         Film film = new Film();
         film.setName("Film 1");
@@ -37,6 +39,7 @@ class FilmValidationTest {
     }
 
     @Test
+    @DisplayName("Создание фильма с пустым именем")
     void emptyName_shouldFailValidation() {
         Film film = new Film();
         film.setName(" ");
@@ -50,6 +53,7 @@ class FilmValidationTest {
     }
 
     @Test
+    @DisplayName("Создание фильма с null именем")
     void nullName_shouldFailValidation() {
         Film film = new Film();
         film.setName(null);
@@ -62,6 +66,7 @@ class FilmValidationTest {
     }
 
     @Test
+    @DisplayName("Создание фильма с null описанием")
     void nullDescription_shouldFailValidation() {
         Film film = new Film();
         film.setName("Film 1");
@@ -74,6 +79,7 @@ class FilmValidationTest {
     }
 
     @Test
+    @DisplayName("Создание фильма с описание выходящим за лимит")
     void description_length201() {
         Film film = new Film();
         film.setName("Film 1");
@@ -86,6 +92,7 @@ class FilmValidationTest {
     }
 
     @Test
+    @DisplayName("Создание с null значением даты релиза фильма")
     void nullReleaseDate() {
         Film film = new Film();
         film.setName("Film 1");
@@ -98,6 +105,7 @@ class FilmValidationTest {
     }
 
     @Test
+    @DisplayName("Создание с некорректной датой релиза фильма")
     void releaseDate_before_1895_12_28() {
         Film film = new Film();
         film.setName("Film 1");
@@ -111,6 +119,7 @@ class FilmValidationTest {
     }
 
     @Test
+    @DisplayName("Создание с null значением продолжительности фильма")
     void nullDuration_shouldFailValidation() {
         Film film = new Film();
         film.setName("Film 1");
@@ -123,6 +132,7 @@ class FilmValidationTest {
     }
 
     @Test
+    @DisplayName("Создание с нулевой продолжительностью фильма")
     void zeroDuration_shouldFailValidation() {
         Film film = new Film();
         film.setName("Film 1");
@@ -135,6 +145,7 @@ class FilmValidationTest {
     }
 
     @Test
+    @DisplayName("Создание с некорректной продолжительностью фильма")
     void negativeDuration_shouldFailValidation() {
         Film film = new Film();
         film.setName("Film 1");

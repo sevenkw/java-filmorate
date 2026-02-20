@@ -4,6 +4,7 @@ import jakarta.validation.Validation;
 import jakarta.validation.Validator;
 import jakarta.validation.ValidatorFactory;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import ru.yandex.practicum.filmorate.exception.ValidationException;
 import ru.yandex.practicum.filmorate.model.User;
@@ -24,6 +25,7 @@ class UserValidationTest {
     }
 
     @Test
+    @DisplayName("Создание корректного пользователя")
     void validateUser() {
         User user = new User();
         user.setEmail("yaroslavanferov@yandex.ru");
@@ -36,6 +38,7 @@ class UserValidationTest {
     }
 
     @Test
+    @DisplayName("Создание пользователя с отсутствием имени")
     void validateUser_NoName() {
         User user = new User();
         user.setEmail("yaroslavanferov@yandex.ru");
@@ -50,6 +53,7 @@ class UserValidationTest {
     }
 
     @Test
+    @DisplayName("Создание пользователя со значением почты null")
     void nullEmail() {
         User user = new User();
         user.setEmail(null);
@@ -61,6 +65,7 @@ class UserValidationTest {
     }
 
     @Test
+    @DisplayName("Создание пользователя c пустой почтой")
     void emptyEmail() {
         User user = new User();
         user.setEmail("");
@@ -72,6 +77,7 @@ class UserValidationTest {
     }
 
     @Test
+    @DisplayName("Создание пользователя с некорректным email")
     void emailWithoutSymbol() {
         User user = new User();
         user.setEmail("yaroslavanferov.ru");
@@ -83,6 +89,7 @@ class UserValidationTest {
     }
 
     @Test
+    @DisplayName("Создание пользователя со значением login null")
     void nullLogin() {
         User user = new User();
         user.setEmail("yaroslavanferov@yandex.ru");
@@ -95,6 +102,7 @@ class UserValidationTest {
     }
 
     @Test
+    @DisplayName("Создание пользователя с пустым логином")
     void emptyLogin() {
         User user = new User();
         user.setEmail("yaroslavanferov@yandex.ru");
@@ -107,6 +115,7 @@ class UserValidationTest {
     }
 
     @Test
+    @DisplayName("Создание пользователя с пробелом в login")
     void loginHasWhitespace() {
         User user = new User();
         user.setEmail("yaroslavanferov@yandex.ru");
@@ -119,6 +128,7 @@ class UserValidationTest {
     }
 
     @Test
+    @DisplayName("Создание пользователя со значением даты рождения null")
     void birthdayIsNull() {
         User user = new User();
         user.setEmail("yaroslavanferov@yandex.ru");
@@ -131,6 +141,7 @@ class UserValidationTest {
     }
 
     @Test
+    @DisplayName("Создание пользователя с датой рождения в бущующем ")
     void birthdayInTheFuture() {
         User user = new User();
         user.setEmail("yaroslavanferov@yandex.ru");
