@@ -105,6 +105,7 @@ class UserValidationTest {
         var result = validator.validate(user);
         assertFalse(result.isEmpty());
     }
+
     @Test
     void loginHasWhitespace() {
         User user = new User();

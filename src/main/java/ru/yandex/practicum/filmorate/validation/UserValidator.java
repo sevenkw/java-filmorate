@@ -13,7 +13,7 @@ public class UserValidator {
     public void validateUser(User user) {
         if (user.getEmail() == null || user.getEmail().isBlank() || !user.getEmail().contains("@")) {
             logger.debug("Некорректный формат данных");
-            throw new ValidationException("Адрес электронной почты должен содержать символ: " + " @" );
+            throw new ValidationException("Адрес электронной почты должен содержать символ: " + " @");
         }
 
         if (user.getLogin() == null || user.getLogin().isBlank() || user.getLogin().contains(" ")) {

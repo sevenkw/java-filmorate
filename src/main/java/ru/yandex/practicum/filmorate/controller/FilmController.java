@@ -59,7 +59,6 @@ public class FilmController {
     }
 
 
-
     private long getNextId() {
         long currentMaxId = films.keySet()
                 .stream()

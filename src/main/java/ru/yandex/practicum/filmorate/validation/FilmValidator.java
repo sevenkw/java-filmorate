@@ -9,6 +9,7 @@ import java.time.LocalDate;
 
 public class FilmValidator {
     private static final Logger logger = LoggerFactory.getLogger(FilmValidator.class);
+
     public void validateFilm(Film film) {
 
         if (film.getName() == null || film.getName().isBlank()) {
