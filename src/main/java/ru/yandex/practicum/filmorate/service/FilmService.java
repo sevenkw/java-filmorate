@@ -65,7 +65,7 @@ public class FilmService {
 
     public List<Film> getFilmsByTopLikes(int count) {
         if (count <= 0) {
-            throw new ValidationException("Колличество не должно быть отрицательным или 0");
+            throw new ValidationException("Количество не должно быть отрицательным или 0");
         }
         return filmStorage.getAllFilms().stream()
                 .sorted(Comparator.comparingInt((Film f) -> f.getLikes().size()).reversed())
