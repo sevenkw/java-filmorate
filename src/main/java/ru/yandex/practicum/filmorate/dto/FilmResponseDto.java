@@ -7,7 +7,6 @@ import ru.yandex.practicum.filmorate.model.MpaRating;
 import java.time.LocalDate;
 import java.util.List;
 
-//для GET
 @Data
 public class FilmResponseDto {
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)

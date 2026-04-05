@@ -7,7 +7,6 @@ import ru.yandex.practicum.filmorate.exception.NotFoundException;
 import ru.yandex.practicum.filmorate.model.MpaRating;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class MpaService {

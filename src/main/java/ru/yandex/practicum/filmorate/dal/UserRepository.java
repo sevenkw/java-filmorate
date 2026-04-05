@@ -62,7 +62,6 @@ public class UserRepository extends BaseRepository<User> {
         return findOne(FIND_BY_ID, id);
     }
 
-
     public void addFriend(Long userId, Long friendId) {
         jdbc.update(ADD_FRIEND, userId, friendId);
     }
@@ -70,7 +69,6 @@ public class UserRepository extends BaseRepository<User> {
     public void deleteFriend(Long userId, Long friendId) {
         jdbc.update(DELETE_FRIENDS, userId, friendId);
     }
-
 
     public List<User> getFriendsList(Long userId) {
         return findMany(FIND_ALL_FRIENDS, userId);
