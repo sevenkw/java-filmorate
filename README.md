@@ -1,7 +1,7 @@
 # Проект Filmorate: Схема базы данных
 
 ## Визуализация схемы
-<img width="780" height="671" alt="FIlmorate drawio" src="https://github.com/user-attachments/assets/784781b0-bdb9-4802-a337-21868140b524" />
+![## Визуализация схемы](https://github.com/sevenkw/java-filmorate/blob/main/FIlmorate.drawio.png)
 
 
 ## Описание таблиц и связей

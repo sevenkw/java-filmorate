@@ -10,10 +10,25 @@ import ru.yandex.practicum.filmorate.validation.FilmValidator;
 
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
-@Component
+
 public class InMemoryFilmStorage implements FilmStorage {
+    @Override
+    public void addLike(Long filmId, Long userId) {
+
+    }
+
+    @Override
+    public void removeLike(Long filmId, Long userId) {
+
+    }
+
+    @Override
+    public List<Film> getPopular(int count) {
+        return List.of();
+    }
 
     private final Map<Long, Film> films = new HashMap<>();
     private static final Logger logger = LoggerFactory.getLogger(InMemoryFilmStorage.class);

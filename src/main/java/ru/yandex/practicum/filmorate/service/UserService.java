@@ -2,6 +2,7 @@ package ru.yandex.practicum.filmorate.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import ru.yandex.practicum.filmorate.exception.NotFoundException;
 import ru.yandex.practicum.filmorate.exception.ValidationException;
 import ru.yandex.practicum.filmorate.model.User;
 import ru.yandex.practicum.filmorate.storage.UserStorage;
@@ -42,13 +43,12 @@ public class UserService {
         if (userId.equals(friendId)) {
             throw new ValidationException("Нельзя добавить в друзья себя самого");
         }
-        User user = userStorage.getUserById(userId);
-        User friend = userStorage.getUserById(friendId);
 
-        user.getFriends().add(friendId);
-        friend.getFriends().add(userId);
+        userStorage.getUserById(userId);
+        userStorage.getUserById(friendId);
 
-        return user;
+        userStorage.addFriend(userId, friendId);
+        return userStorage.getUserById(userId);
     }
 
     public User deleteFriends(Long userId, Long friendId) {
@@ -56,51 +56,25 @@ public class UserService {
         if (userId.equals(friendId)) {
             throw new ValidationException("Нельзя удалить из друзей себя самого");
         }
+        userStorage.getUserById(userId);
+        userStorage.getUserById(friendId);
 
-        User user = userStorage.getUserById(userId);
-        User friend = userStorage.getUserById(friendId);
-
-        user.getFriends().remove(friendId);
-        friend.getFriends().remove(userId);
-
-        return user;
+        userStorage.removeFriend(userId, friendId);
+        return userStorage.getUserById(userId);
     }
 
     //возвращение списка пользователей являющихся его друзьями
     public List<User> getUserFriends(Long userId) {
-        User user = userStorage.getUserById(userId);
-        Set<Long> friendsId = user.getFriends();
-
-        List<User> userFriends = new ArrayList<>();
-        for (var realUser : friendsId) {
-            User u = userStorage.getUserById(realUser);
-            userFriends.add(u);
+        try {
+            userStorage.getUserById(userId);
+        } catch (NotFoundException e) {
+            throw new NotFoundException(e.getMessage());
         }
-        return userFriends;
+        return userStorage.getFriends(userId);
     }
 
     //список друзей, общих с другим пользователем.
     public List<User> getMutualFriends(Long userId, Long otherUserId) {
-        List<User> userMutualFriends = new ArrayList<>();
-
-        User user = userStorage.getUserById(userId);
-        Set<Long> friendsId = user.getFriends();
-
-        User friend = userStorage.getUserById(otherUserId);
-        Set<Long> listId = friend.getFriends();
-
-        Set<Long> otherUserFriends = new HashSet<>();
-        for (var identicalUsers : friendsId) {
-            if (listId.contains(identicalUsers)) {
-                otherUserFriends.add(identicalUsers);
-            }
-        }
-
-        for (var realUsers : otherUserFriends) {
-            User u = userStorage.getUserById(realUsers);
-            userMutualFriends.add(u);
-        }
-
-        return userMutualFriends;
+        return userStorage.getMutualFriends(userId, otherUserId);
     }
 }

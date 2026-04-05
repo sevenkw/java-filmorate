@@ -5,9 +5,13 @@ import jakarta.validation.constraints.Positive;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import ru.yandex.practicum.filmorate.dto.FilmRequestDto;
+import ru.yandex.practicum.filmorate.dto.FilmResponseDto;
+import ru.yandex.practicum.filmorate.mapper.FilmMapper;
 import ru.yandex.practicum.filmorate.model.Film;
 import ru.yandex.practicum.filmorate.service.FilmService;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
@@ -24,38 +28,55 @@ public class FilmController {
     }
 
     @GetMapping
-    public Collection<Film> getAllFilms() {
-        return filmService.getAllFilms();
+    public Collection<FilmResponseDto> getAllFilms() {
+        Collection<Film> films = filmService.getAllFilms();
+        Collection<FilmResponseDto> filmResponseDtos = new ArrayList<>();
+        for (Film f : films) {
+            filmResponseDtos.add(FilmMapper.toDto(f));
+        }
+        return filmResponseDtos;
     }
 
     @PostMapping
-    public Film createFilm(@Valid @RequestBody Film film) {
-        return filmService.createFilm(film);
+    public FilmResponseDto createFilm(@Valid @RequestBody FilmRequestDto dto) {
+        Film film = FilmMapper.toFilm(dto);
+        Film filmSaved = filmService.createFilm(film);
+        return FilmMapper.toDto(filmSaved);
     }
 
     @PutMapping
-    public Film updateFilm(@Valid @RequestBody Film newFilm) {
-        return filmService.updateFilm(newFilm);
+    public FilmResponseDto updateFilm(@Valid @RequestBody FilmRequestDto newFilm) {
+        Film film = FilmMapper.toFilm(newFilm);
+        Film filmSaved = filmService.updateFilm(film);
+        return FilmMapper.toDto(filmSaved);
     }
 
 
     @GetMapping("/{id}")
-    public Film getFilmById(@PathVariable @Positive Long id) {
-        return filmService.getFilmById(id);
+    public FilmResponseDto getFilmById(@PathVariable @Positive Long id) {
+        Film film = filmService.getFilmById(id);
+        return FilmMapper.toDto(film);
     }
 
     @PutMapping("/{id}/like/{userId}")
-    public Film putFilmLike(@PathVariable @Positive Long id, @Positive @PathVariable Long userId) {
-        return filmService.putLikeOnFilm(id, userId);
+    public FilmResponseDto putFilmLike(@PathVariable @Positive Long id, @Positive @PathVariable Long userId) {
+        Film film = filmService.putLikeOnFilm(id, userId);
+        return FilmMapper.toDto(film);
     }
 
     @DeleteMapping("/{id}/like/{userId}")
-    public Film deleteFilmLike(@PathVariable @Positive Long id, @Positive @PathVariable Long userId) {
-        return filmService.deleteLikeOnFilm(id, userId);
+    public FilmResponseDto deleteFilmLike(@PathVariable @Positive Long id, @Positive @PathVariable Long userId) {
+        Film film = filmService.deleteLikeOnFilm(id, userId);
+        return FilmMapper.toDto(film);
     }
 
     @GetMapping("/popular")
-    public List<Film> getPopularFilms(@RequestParam(defaultValue = "10") @Positive int count) {
-        return filmService.getFilmsByTopLikes(count);
+    public List<FilmResponseDto> getPopularFilms(@RequestParam(defaultValue = "10") @Positive int count) {
+        List<Film> film = filmService.getFilmsByTopLikes(count);
+        List<FilmResponseDto> finalFilms = new ArrayList<>();
+        for (Film f : film) {
+            finalFilms.add(FilmMapper.toDto(f));
+        }
+        return finalFilms;
     }
 }
