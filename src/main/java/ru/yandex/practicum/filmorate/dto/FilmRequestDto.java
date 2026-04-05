@@ -10,9 +10,7 @@ import ru.yandex.practicum.filmorate.model.MpaRating;
 
 import java.time.LocalDate;
 import java.util.List;
-import java.util.Set;
 
-//для post и put
 @Data
 public class FilmRequestDto {
     private Long id;
