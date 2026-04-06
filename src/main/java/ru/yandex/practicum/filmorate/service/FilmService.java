@@ -2,6 +2,7 @@ package ru.yandex.practicum.filmorate.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import ru.yandex.practicum.filmorate.exception.NotFoundException;
 import ru.yandex.practicum.filmorate.exception.ValidationException;
 import ru.yandex.practicum.filmorate.model.Film;
 import ru.yandex.practicum.filmorate.model.Genre;
@@ -85,14 +86,30 @@ public class FilmService {
         if (film.getGenres() == null || film.getGenres().isEmpty()) {
             return;
         }
-        Map<Long, Genre> unique = new LinkedHashMap<>();
+        LinkedHashSet<Long> uniqueIds = new LinkedHashSet<>();
         for (Genre genre : film.getGenres()) {
             if (genre == null || genre.getId() == null || genre.getId() < 1) {
                 throw new ValidationException("Invalid genre id " + (genre == null ? null : genre.getId()));
             }
-            Genre loaded = genreService.findById(genre.getId().intValue());
-            unique.putIfAbsent(loaded.getId(), loaded);
+            uniqueIds.add(genre.getId());
         }
-        film.setGenres(new LinkedHashSet<>(unique.values()));
+
+        Map<Long, Genre> loadedById = new LinkedHashMap<>();
+        for (Genre loaded : genreService.findAllByIds(uniqueIds)) {
+            loadedById.put(loaded.getId(), loaded);
+        }
+        if (loadedById.size() != uniqueIds.size()) {
+            for (Long id : uniqueIds) {
+                if (!loadedById.containsKey(id)) {
+                    throw new NotFoundException("Жанр с id=" + id + " не найден");
+                }
+            }
+        }
+
+        LinkedHashSet<Genre> ordered = new LinkedHashSet<>();
+        for (Long id : uniqueIds) {
+            ordered.add(loadedById.get(id));
+        }
+        film.setGenres(ordered);
     }
 }

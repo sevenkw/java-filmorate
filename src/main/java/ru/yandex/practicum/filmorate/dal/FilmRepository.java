@@ -8,6 +8,7 @@ import ru.yandex.practicum.filmorate.exception.NotFoundException;
 import ru.yandex.practicum.filmorate.model.Film;
 import ru.yandex.practicum.filmorate.model.Genre;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -119,9 +120,14 @@ public class FilmRepository extends BaseRepository<Film> {
     }
 
     public void setGenresOnFilm(long filmId, Set<Long> genreIds) {
-        for (Long genreId : genreIds) {
-            jdbc.update(ADD_FILM_GENRE, filmId, genreId);
+        if (genreIds.isEmpty()) {
+            return;
         }
+        List<Object[]> batchArgs = new ArrayList<>(genreIds.size());
+        for (Long genreId : genreIds) {
+            batchArgs.add(new Object[]{filmId, genreId});
+        }
+        jdbc.batchUpdate(ADD_FILM_GENRE, batchArgs);
     }
 
     public List<Genre> getGenres(long filmId) {

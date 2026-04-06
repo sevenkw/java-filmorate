@@ -24,4 +24,13 @@ public class GenreRepository extends BaseRepository<Genre> {
     public Optional<Genre> findById(int id) {
         return findOne(FIND_GENRE_BY_ID, id);
     }
+
+    public List<Genre> findAllByIds(List<Long> ids) {
+        if (ids.isEmpty()) {
+            return List.of();
+        }
+        String placeholders = String.join(",", ids.stream().map(id -> "?").toList());
+        String query = "SELECT * FROM genre WHERE genre_id IN (" + placeholders + ") ORDER BY genre_id";
+        return findMany(query, ids.toArray());
+    }
 }
