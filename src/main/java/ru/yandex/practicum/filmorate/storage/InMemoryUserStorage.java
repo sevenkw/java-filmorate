@@ -2,7 +2,6 @@ package ru.yandex.practicum.filmorate.storage;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.Component;
 import ru.yandex.practicum.filmorate.exception.NotFoundException;
 import ru.yandex.practicum.filmorate.exception.ValidationException;
 import ru.yandex.practicum.filmorate.model.User;
@@ -10,10 +9,31 @@ import ru.yandex.practicum.filmorate.validation.UserValidator;
 
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
-@Component
+
 public class InMemoryUserStorage implements UserStorage {
+    @Override
+    public void addFriend(Long userId, Long friendId) {
+
+    }
+
+    @Override
+    public void removeFriend(Long userId, Long friendId) {
+
+    }
+
+    @Override
+    public List<User> getFriends(Long userId) {
+        return List.of();
+    }
+
+    @Override
+    public List<User> getMutualFriends(Long userId, Long otherId) {
+        return List.of();
+    }
+
     private final Map<Long, User> users = new HashMap<>();
     private static final Logger logger = LoggerFactory.getLogger(InMemoryUserStorage.class);
     private final UserValidator userValidation = new UserValidator();
